@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
 //                    imageView.setImageBitmap(rotateIfRequired(bitmap))
 //                    val byteArray: ByteArray
 //                    byteArray = bitmapToBytes(bitmap)
-                    val intent = Intent(this, EditImageActivity::class.java)
+                    val intent = Intent(this, PhotoEditorActivity::class.java)
 //                    intent.putExtra("bitmap", byteArray)
                     startActivity(intent)
                 }

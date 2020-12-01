@@ -17,7 +17,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.signature.ObjectKey;
+import com.example.camera.editor.ColorRadioGroup;
+import com.example.camera.entity.LocalMedia;
+
 import java.io.File;
+import java.security.Signature;
 
 public class PhotoEditorActivity extends AppCompatActivity {
     public static final String TYPE = "type";
@@ -46,6 +52,9 @@ public class PhotoEditorActivity extends AppCompatActivity {
     private LocalMedia localMedial;
     private int type;
 
+    File outputImage;
+    String updateTime = String.valueOf(System.currentTimeMillis());
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +65,7 @@ public class PhotoEditorActivity extends AppCompatActivity {
         btnComplete = findViewById(R.id.btn_complete);
         btnCancel = findViewById(R.id.btn_cancel);
         photoEditorView = findViewById(R.id.photo_editor_view);
+        outputImage = new File(getExternalCacheDir(), "output_img.jpg");
         initWidget();
         bindListener();
         startInvoke();
@@ -104,23 +114,28 @@ public class PhotoEditorActivity extends AppCompatActivity {
     };
 
     public void startInvoke() {
-        mIntent = getIntent();
-        if (mIntent != null) {
-            type = mIntent.getIntExtra(TYPE, 0);
-            if (type == TYPE_ALBUM) {
-                localMedial = mIntent.getParcelableExtra(EXTRA_EDITOR_MEDIA);
-                if (localMedial != null) {
-                    url = localMedial.getPath();
-                }
-            } else {
-                url = mIntent.getStringExtra(EXTRA_IMAGE_PATH);
-            }
-            if (!TextUtils.isEmpty(url)) {
-                Glide.with(this).asBitmap().load(url).into(photoEditorView.getImageView());
-            } else {
-                finish();
-            }
-        }
+        Glide.with(this)
+                .asBitmap()
+                .signature(new ObjectKey(updateTime))//为了防止同名缓存导致的图片不更新
+                .load(outputImage)
+                .into(photoEditorView.getImageView());
+//        mIntent = getIntent();
+//        if (mIntent != null) {
+//            type = mIntent.getIntExtra(TYPE, 0);
+//            if (type == TYPE_ALBUM) {
+//                localMedial = mIntent.getParcelableExtra(EXTRA_EDITOR_MEDIA);
+//                if (localMedial != null) {
+//                    url = localMedial.getPath();
+//                }
+//            } else {
+//                url = mIntent.getStringExtra(EXTRA_IMAGE_PATH);
+//            }
+//            if (!TextUtils.isEmpty(url)) {
+//                Glide.with(this).asBitmap().load(url).into(photoEditorView.getImageView());
+//            } else {
+//                finish();
+//            }
+//        }
     }
 
 
@@ -166,7 +181,12 @@ public class PhotoEditorActivity extends AppCompatActivity {
             @Override
             public void onFailure(Boolean success) {
                 hideLoading();
-                Toast.makeText(mContext, "失败", Toast.LENGTH_LONG).show();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(mContext, "失败", Toast.LENGTH_LONG).show();
+                    }
+                });
             }
         });
     }

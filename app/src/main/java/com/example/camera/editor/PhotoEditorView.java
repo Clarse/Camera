@@ -1,4 +1,4 @@
-package com.example.camera;
+package com.example.camera.editor;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -13,6 +13,12 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import androidx.annotation.RequiresApi;
+
+
+/**
+ * Created by pangli on 2018/4/11 11:38
+ * 备注：   图片涂鸦容器
+ */
 
 public class PhotoEditorView extends RelativeLayout {
 
@@ -98,7 +104,7 @@ public class PhotoEditorView extends RelativeLayout {
         srcSize.y = imageViewBitmap.getHeight();
         Bitmap bitmap = mBrushDrawingView.getBrushResultImage(clipRect, srcSize);
         Bitmap resultBitmap = Bitmap.createBitmap(imageViewBitmap.getWidth(), imageViewBitmap.getHeight(), Bitmap.Config
-                .ARGB_8888);
+                .ARGB_4444);
         Canvas canvas = new Canvas(resultBitmap);
         canvas.drawBitmap(imageViewBitmap, 0, 0, null);
         canvas.drawBitmap(bitmap, 0, 0, null);

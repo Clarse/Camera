@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <com.example.camera.PhotoEditorView
         android:id="@+id/photo_editor_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"/>
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true" />
 
     <RelativeLayout
+        android:background="@color/black"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_alignParentTop="true"
-        >
+        android:layout_alignParentTop="true">
 
         <TextView
             android:id="@+id/btn_cancel"
@@ -22,19 +23,19 @@
             android:layout_height="match_parent"
             android:layout_alignParentStart="true"
             android:gravity="center"
-            android:paddingEnd="@dimen/photo_editor_text_padding"
             android:paddingStart="@dimen/photo_editor_text_padding"
+            android:paddingEnd="@dimen/photo_editor_text_padding"
             android:text="取消"
-            android:textColor="@color/white_radio"
-            />
+            android:textColor="@color/white_radio" />
 
         <TextView
+            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_centerInParent="true"
             android:gravity="center"
             android:text="编辑图片"
-            android:textColor="@color/white_radio"/>
+            android:textColor="@color/white_radio" />
 
         <TextView
             android:id="@+id/btn_complete"
@@ -42,11 +43,10 @@
             android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
             android:gravity="center"
-            android:paddingEnd="@dimen/photo_editor_text_padding"
             android:paddingStart="@dimen/photo_editor_text_padding"
+            android:paddingEnd="@dimen/photo_editor_text_padding"
             android:text="完成"
-            android:textColor="@color/white_radio"
-            />
+            android:textColor="@color/white_radio" />
 
     </RelativeLayout>
 
@@ -57,7 +57,7 @@
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
-        <com.luck.picture.lib.editor.ColorRadioGroup
+        <com.example.camera.editor.ColorRadioGroup
             android:id="@+id/crg_colors"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -67,62 +67,63 @@
             android:checkedButton="@+id/rb_red"
             android:orientation="horizontal">
 
-            <com.luck.picture.lib.editor.ColorRadioButton
+            <com.example.camera.editor.ColorRadioButton
                 android:id="@+id/rb_black"
                 android:layout_width="@dimen/radio_color"
                 android:layout_height="@dimen/radio_color"
                 android:layout_margin="@dimen/radio_color_margin"
                 android:button="@null"
-                app:radio_color="@color/black_radio"/>
+                app:radio_color="@color/black_radio" />
 
-            <com.luck.picture.lib.editor.ColorRadioButton
+            <com.example.camera.editor.ColorRadioButton
                 android:id="@+id/rb_red"
                 android:layout_width="@dimen/radio_color"
                 android:layout_height="@dimen/radio_color"
                 android:layout_margin="@dimen/radio_color_margin"
                 android:button="@null"
-                app:radio_color="@color/red_radio"/>
+                app:radio_color="@color/red_radio" />
 
-            <com.luck.picture.lib.editor.ColorRadioButton
+            <com.example.camera.editor.ColorRadioButton
                 android:id="@+id/rb_yellow"
                 android:layout_width="@dimen/radio_color"
                 android:layout_height="@dimen/radio_color"
                 android:layout_margin="@dimen/radio_color_margin"
                 android:button="@null"
-                app:radio_color="@color/yellow_radio"/>
+                app:radio_color="@color/yellow_radio" />
 
-            <com.luck.picture.lib.editor.ColorRadioButton
+            <com.example.camera.editor.ColorRadioButton
                 android:id="@+id/rb_blue"
                 android:layout_width="@dimen/radio_color"
                 android:layout_height="@dimen/radio_color"
                 android:layout_margin="@dimen/radio_color_margin"
                 android:button="@null"
-                app:radio_color="@color/blue_radio"/>
+                app:radio_color="@color/blue_radio" />
 
-            <com.luck.picture.lib.editor.ColorRadioButton
+            <com.example.camera.editor.ColorRadioButton
                 android:id="@+id/rb_green"
                 android:layout_width="@dimen/radio_color"
                 android:layout_height="@dimen/radio_color"
                 android:layout_margin="@dimen/radio_color_margin"
                 android:button="@null"
-                app:radio_color="@color/green_radio"/>
+                app:radio_color="@color/green_radio" />
 
-            <com.luck.picture.lib.editor.ColorRadioButton
+            <com.example.camera.editor.ColorRadioButton
                 android:id="@+id/rb_orange"
                 android:layout_width="@dimen/radio_color"
                 android:layout_height="@dimen/radio_color"
                 android:layout_margin="@dimen/radio_color_margin"
                 android:button="@null"
-                app:radio_color="@color/orange_radio"/>
+                app:radio_color="@color/orange_radio" />
 
-            <com.luck.picture.lib.editor.ColorRadioButton
+            <com.example.camera.editor.ColorRadioButton
                 android:id="@+id/rb_white"
                 android:layout_width="@dimen/radio_color"
                 android:layout_height="@dimen/radio_color"
                 android:layout_margin="@dimen/radio_color_margin"
                 android:button="@null"
-                app:radio_color="@color/white_radio"/>
-        </com.luck.picture.lib.editor.ColorRadioGroup>
+                app:radio_color="@color/white_radio" />
+
+        </com.example.camera.editor.ColorRadioGroup>
 
         <ImageButton
             android:id="@+id/btn_undo"
@@ -130,7 +131,8 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/radio_margin"
             android:background="@null"
-            android:src="@drawable/selector_btn_undo"/>
+            android:src="@drawable/selector_btn_undo" />
+
     </LinearLayout>
 
 </RelativeLayout>
