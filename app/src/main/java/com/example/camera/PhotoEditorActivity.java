@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.RadioGroup;
@@ -23,7 +22,6 @@ import com.example.camera.editor.ColorRadioGroup;
 import com.example.camera.entity.LocalMedia;
 
 import java.io.File;
-import java.security.Signature;
 
 public class PhotoEditorActivity extends AppCompatActivity {
     public static final String TYPE = "type";
@@ -99,16 +97,22 @@ public class PhotoEditorActivity extends AppCompatActivity {
             } else if (i == R.id.btn_undo) {
                 photoEditor.undo();
             } else if (i == R.id.btn_complete) {
-                if (photoEditor.isCacheEmpty()) {
-                    if (type == TYPE_OTHER) {
-                        mIntent = new Intent();
-                        mIntent.putExtra(RESULT_IMAGE_PATH, url);
-                        setResult(RESULTCODE, mIntent);
-                    }
-                    finish();
+                if (photoEditor.isCacheEmpty()) { //如果没有进行任何操作，那么使用原来的图片
+                    Toast.makeText(PhotoEditorActivity.this, "没有进行任何涂鸦",
+                            Toast.LENGTH_SHORT).show();
                 } else {
                     saveImage();
                 }
+//                if (photoEditor.isCacheEmpty()) {
+//                    if (type == TYPE_OTHER) {
+//                        mIntent = new Intent();
+//                        mIntent.putExtra(RESULT_IMAGE_PATH, url);
+//                        setResult(RESULTCODE, mIntent);
+//                    }
+//                    finish();
+//                } else {
+//                    saveImage();
+//                }
             }
         }
     };
@@ -151,7 +155,8 @@ public class PhotoEditorActivity extends AppCompatActivity {
     }
 
     public String saveEditorPhotoJpgPath() {
-        return initPath() + File.separator + "editor_" + System.currentTimeMillis() + ".jpg";
+        return new File(getExternalCacheDir(), "saved_image.jpg").getAbsolutePath();
+//        return initPath() + File.separator + "editor_" + System.currentTimeMillis() + ".jpg";
     }
 
 
@@ -166,27 +171,23 @@ public class PhotoEditorActivity extends AppCompatActivity {
             @Override
             public void onSuccess(String imagePath) {
                 hideLoading();
-                mIntent = new Intent();
-                if (type == TYPE_ALBUM) {
-                    localMedial.setEditor(true);
-                    localMedial.setEditorPath(imagePath);
-                    mIntent.putExtra(RESULT_EDITOR_MEDIA, localMedial);
-                } else {
-                    mIntent.putExtra(RESULT_IMAGE_PATH, imagePath);
-                }
-                setResult(RESULTCODE, mIntent);
-                finish();
+                runOnUiThread(() -> Toast.makeText(mContext, "图片保存成功", Toast.LENGTH_LONG).show());
+//                mIntent = new Intent();
+//                if (type == TYPE_ALBUM) {
+//                    localMedial.setEditor(true);
+//                    localMedial.setEditorPath(imagePath);
+//                    mIntent.putExtra(RESULT_EDITOR_MEDIA, localMedial);
+//                } else {
+//                    mIntent.putExtra(RESULT_IMAGE_PATH, imagePath);
+//                }
+//                setResult(RESULTCODE, mIntent);
+//                finish();
             }
 
             @Override
             public void onFailure(Boolean success) {
                 hideLoading();
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(mContext, "失败", Toast.LENGTH_LONG).show();
-                    }
-                });
+                runOnUiThread(() -> Toast.makeText(mContext, "失败", Toast.LENGTH_LONG).show());
             }
         });
     }
