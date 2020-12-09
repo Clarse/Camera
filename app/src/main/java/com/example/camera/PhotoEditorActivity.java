@@ -172,6 +172,8 @@ public class PhotoEditorActivity extends AppCompatActivity {
             public void onSuccess(String imagePath) {
                 hideLoading();
                 runOnUiThread(() -> Toast.makeText(mContext, "图片保存成功", Toast.LENGTH_LONG).show());
+                setResult(RESULT_OK);
+                finish();
 //                mIntent = new Intent();
 //                if (type == TYPE_ALBUM) {
 //                    localMedial.setEditor(true);

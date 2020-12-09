@@ -21,6 +21,7 @@ class MainActivity : AppCompatActivity() {
     private val takePhoto = 1
     lateinit var imageUri: Uri
     lateinit var outputImage: File
+    private val EDIT_PHOTO_CODE = 10000
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,7 +50,14 @@ class MainActivity : AppCompatActivity() {
 //                    byteArray = bitmapToBytes(bitmap)
                     val intent = Intent(this, PhotoEditorActivity::class.java)
 //                    intent.putExtra("bitmap", byteArray)
-                    startActivity(intent)
+                    startActivityForResult(intent, EDIT_PHOTO_CODE)
+                }
+            }
+            EDIT_PHOTO_CODE -> {
+                if (resultCode == RESULT_OK) {
+                    val savedImg = File(externalCacheDir, "saved_image.jpg")
+                    val bitmap = BitmapFactory.decodeFile(savedImg.absolutePath)
+                    imageView.setImageBitmap(rotateIfRequired(bitmap))
                 }
             }
         }
